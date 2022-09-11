@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck {
+
 	private List<Card> cards;
 
 	public int checkDeckSize() {
@@ -17,10 +18,11 @@ public class Deck {
 
 	public void mixDeck() {
 		Collections.shuffle(cards);
+		System.out.println("Shuffled deck");
 	}
 
-	private List<Card> createDeck() {
-		List<Card> deck = new ArrayList<>(52);
+	private List<Card> createDeck(int size) {
+		List<Card> deck = new ArrayList<>(size);
 		for (Suit s : Suit.values()) {
 			for (Rank r : Rank.values()) {
 				deck.add(new Card(s, r));
@@ -29,8 +31,14 @@ public class Deck {
 		return deck;
 	}
 
-	public Deck() {
-		cards = createDeck();
+	public void blackjackDeck() {
+		BlackjackHand blackjackHand = new BlackjackHand();
+		if (blackjackHand.isBlackjack()) {
+			int size = 52;
+			cards = createDeck(size);
+			System.out.println("Adding 52 cards to deck");
+		}
+
 	}
 
 }
