@@ -57,15 +57,16 @@ public class BlackjackApp {
 				case "Stay":
 					System.out.println(player.toString());
 					dealer.revealCards();
-					if (dealer.playerHand.getHandValue() < 17
+					while (dealer.playerHand.getHandValue() < 17
 							|| dealer.playerHand.getHandValue() <= player.playerHand.getHandValue()) {
 						dealer.dealCard(dealer);
 						System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
-						break;
-					}
-					if(dealer.playerHand.getHandValue() > 21) {
-						System.out.println("Dealers hand is " + dealer.playerHand.getHandValue() + " players hand is " + player.playerHand.getHandValue());
-						break;
+						if (dealer.playerHand.getHandValue() > 21) {
+							System.out.println("Dealers hand is " + dealer.playerHand.getHandValue()
+									+ " players hand is " + player.playerHand.getHandValue());
+							System.out.println("dealer busts");
+							break;
+						}
 					}
 					break;
 				default:
