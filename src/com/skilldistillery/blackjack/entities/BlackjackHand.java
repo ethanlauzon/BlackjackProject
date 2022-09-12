@@ -19,9 +19,9 @@ public class BlackjackHand extends Hand{
 	public boolean isBust() {
 		if(getHandValue() > 21) {
 		System.out.println("you bust");	
-		return false;
-		}
 		return true;
+		}
+		return false;
 	}
 	
 	@Override

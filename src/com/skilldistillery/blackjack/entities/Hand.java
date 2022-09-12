@@ -1,5 +1,4 @@
 package com.skilldistillery.blackjack.entities;
-
 import java.util.ArrayList;
 import java.util.List;
 

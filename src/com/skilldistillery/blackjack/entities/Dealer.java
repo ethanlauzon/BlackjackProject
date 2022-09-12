@@ -1,8 +1,9 @@
 package com.skilldistillery.blackjack.entities;
-
-import java.util.Collections;
-
 public class Dealer extends Player{
+	
+	public Card hiddenCard;
+	public Card dealerCard;
+    
 
 	private Deck deck = new Deck();
 
@@ -29,11 +30,17 @@ public class Dealer extends Player{
 	public void initialCardsDealt(Player player) {
 		Card card = dealCard(player);
 		System.out.println("player was dealt " + card);
-		card = dealCard(this);
+		dealerCard = dealCard(this);
 		System.out.println("dealer was dealt " + card);
 		card = dealCard(player);
 		System.out.println("player was dealt " + card);
-		card = dealCard(this);
+		hiddenCard = dealCard(this);
 		System.out.println("dealer was dealt face down card");
+	}
+	
+	public void revealCards() {
+		System.out.println("dealer was dealt " + dealerCard);
+		System.out.println("dealer was dealt " + hiddenCard);
+	
 	}
 }
