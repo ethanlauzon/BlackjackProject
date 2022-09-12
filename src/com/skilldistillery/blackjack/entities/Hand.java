@@ -30,6 +30,7 @@ public abstract class Hand {
 	
 	
 	
+	
 	public abstract int getHandValue();
 	
 	

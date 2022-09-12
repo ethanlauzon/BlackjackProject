@@ -12,8 +12,6 @@ public class BlackjackApp {
 	Scanner sc = new Scanner(System.in);
 	Dealer dealer = new Dealer();
 	Player player = new Player();
-	Deck deck = new Deck();
-	BlackjackHand blackjackHand = new BlackjackHand();
 	String yes = "yes";
 
 	public static void main(String[] args) {
@@ -34,7 +32,7 @@ public class BlackjackApp {
 			dealer.initialCardsDealt(player);
 			System.out.println(player.toString());
 			int totes = player.playerHand.getHandValue();
-			if(totes == 21) {
+			if (totes == 21) {
 				System.out.println("BlackJack you win");
 			}
 			while (totes < 21) {
@@ -45,31 +43,48 @@ public class BlackjackApp {
 				case "Hit":
 					dealer.dealCard(player);
 					System.out.println(player.toString());
+					if (totes > 21) {
+						System.out.println("you lose, the dealer wins");
+						dealer.revealCards();
+						break;
+					}
+					if (totes == 21) {
+						System.out.println("Blackjack you win");
+						break;
+					}
 					break;
 				case "stay":
 				case "Stay":
 					System.out.println(player.toString());
 					dealer.revealCards();
+					if (dealer.playerHand.getHandValue() < 17
+							|| dealer.playerHand.getHandValue() <= player.playerHand.getHandValue()) {
+						dealer.dealCard(dealer);
+						System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+						break;
+					}
+					if(dealer.playerHand.getHandValue() > 21) {
+						System.out.println("Dealers hand is " + dealer.playerHand.getHandValue() + " players hand is " + player.playerHand.getHandValue());
+						break;
+					}
 					break;
 				default:
 					System.out.println("invalid entry, enter either hit or stay");
-					if(totes > 21) {
-						System.out.println("you lose");
+					if (totes > 21) {
+						System.out.println("you lose, the dealer wins");
 						dealer.revealCards();
-						if(dealer.playerHand.getHandValue() < 17) {
-							dealer.dealCard(dealer);
-						}
+						break;
 					}
-					if(totes == 21) {
-						System.out.println("BlackJack you win");
+					if (totes == 21) {
+						System.out.println("Blackjack you win");
+						break;
 					}
-					if( totes < dealer.playerHand.getHandValue()) {
-						System.out.println("you lose");
+					if (totes < dealer.playerHand.getHandValue()) {
+						System.out.println("you lose, the dealer wins");
+						break;
 					}
 				}
-				
-				System.out.println(player.playerHand.getHandValue() + " ");
-			} 
+			}
 		}
 		sc.close();
 
