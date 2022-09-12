@@ -6,23 +6,18 @@ import java.util.List;
 
 public class Deck {
 
-	private List<Card> cards;
+	private List<Card> deck = new ArrayList<>();
 
 	public int checkDeckSize() {
-		return cards.size();
-	}
-
-	public Card dealCard() {
-		return cards.remove(0);
+		return deck.size();
 	}
 
 	public void mixDeck() {
-		Collections.shuffle(cards);
-		System.out.println("Shuffled deck");
+		Collections.shuffle(deck);
 	}
 
-	private List<Card> createDeck(int size) {
-		List<Card> deck = new ArrayList<>(size);
+	private List<Card> createDeck() {
+		List<Card> deck = new ArrayList<>(52);
 		for (Suit s : Suit.values()) {
 			for (Rank r : Rank.values()) {
 				deck.add(new Card(s, r));
@@ -32,13 +27,17 @@ public class Deck {
 	}
 
 	public void blackjackDeck() {
-		BlackjackHand blackjackHand = new BlackjackHand();
-		if (blackjackHand.isBlackjack()) {
-			int size = 52;
-			cards = createDeck(size);
-			System.out.println("Adding 52 cards to deck");
+		if (true) {
+			deck = createDeck();
 		}
-
 	}
 
+	public Card dealCard() {
+		return deck.remove(0);
+	}
+	
+	public void dealCard(Hand hand) {
+		hand.addCard(deck.remove(0));
+		
+	}
 }

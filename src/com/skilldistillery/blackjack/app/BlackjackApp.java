@@ -1,14 +1,20 @@
 package com.skilldistillery.blackjack.app;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
 import com.skilldistillery.blackjack.entities.BlackjackHand;
 import com.skilldistillery.blackjack.entities.Card;
+import com.skilldistillery.blackjack.entities.Dealer;
 import com.skilldistillery.blackjack.entities.Deck;
+import com.skilldistillery.blackjack.entities.Hand;
+import com.skilldistillery.blackjack.entities.Player;
 
 public class BlackjackApp {
+	Scanner sc = new Scanner(System.in);
+	Dealer dealer = new Dealer();
+	Player player = new Player();
+	Deck deck = new Deck();
+	BlackjackHand blackjackHand = new BlackjackHand();
+	String yes = "yes";
 
 	public static void main(String[] args) {
 		BlackjackApp blackjackApp = new BlackjackApp();
@@ -16,56 +22,43 @@ public class BlackjackApp {
 	}
 
 	public void playBlackjack() {
-		
-		int total = 0;
-		int numCardsDealt = 0;
-		String userInput;
-		String hit = "hit";
-		Deck deck = new Deck();
-		Card card = deck.dealCard();
-		Scanner sc = new Scanner(System.in);
-		
-		deck.blackjackDeck();
-		deck.mixDeck();
-		deck.dealCard();
-		total += card.getValue();
-		System.out.print("Dealt " + card + " => ");
-		System.out.println("your total hand " + total);
 
-		while (total < 21) {
-			
-			System.out.println("Hit or Stay");
-			userInput = sc.nextLine();
-			
-			while (userInput.equalsIgnoreCase(hit)) {
-				deck.dealCard();
-				total += card.getValue();
-				numCardsDealt++;
-				System.out.print("Dealt " + card + " => ");
-				System.out.println("your total hand " + total);
-
-				if (total > 21) {
-					System.out.println("You Lose");
-					break;
-				}
-			}
-		}
-		sc.close();
 	}
 
 	public void startScreen() {
-		String choice = "yes";
-		Scanner sc = new Scanner(System.in);
-		BlackjackHand blackjackHand = new BlackjackHand();
-
 		System.out.println("Would you like to play blackjack? Please enter yes or no ");
 		String userInput = sc.nextLine();
+		if (userInput.equalsIgnoreCase(yes)) {
+			dealer.blackjackDeck();
+			dealer.mixDeck();
+			dealer.initialCardsDealt(player);
+			System.out.println(player.toString());
+			System.out.println("Hit or Stay");
+			userInput = sc.nextLine();
+			if (blackjackHand.getHandValue() < 21) {
+				
+			
+				switch (userInput) {
+				case "hit":
+				case "Hit":
+					dealer.dealCard(player);
+					System.out.println(player.toString());
+					if(blackjackHand.getHandValue() > 21) {
+						System.out.println("you lose");
+					}
+					break;
+				case "stay":
+				case "Stay":
+					System.out.println(player.toString());
+					break;
+				default:
+					System.out.println("invalid entry, enter either hit or stay");
+				}
 
-		if (userInput.equalsIgnoreCase(choice)) {
-			blackjackHand.isBlackjack();
-		} else {
-			System.out.println("Goodbye");
+			}
 		}
-		sc.close();
+			sc.close();
+
+		}
 	}
-}
+
