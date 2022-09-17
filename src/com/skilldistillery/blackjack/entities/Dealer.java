@@ -52,4 +52,7 @@ public class Dealer extends Player {
 		System.out.println("Dealers card shown card is " + dealerCard);
 
 	}
+	public String revealDealer() {
+		return "Dealer Hand = " + this.playerHand;
+	}
 }

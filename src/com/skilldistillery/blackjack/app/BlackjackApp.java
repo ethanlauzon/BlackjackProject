@@ -31,11 +31,11 @@ public class BlackjackApp {
 			dealer.mixDeck();
 			dealer.initialCardsDealt(player);
 			System.out.println(player.toString());
-			int totes = player.playerHand.getHandValue();
-			if (totes == 21) {
-				System.out.println("BlackJack you win");
+			boolean run = true;
+			if (player.playerHand.getHandValue() == 21 && dealer.playerHand.getHandValue() != 21) {
+				run = false;
 			}
-			while (totes < 21) {
+			while (run) {
 				System.out.println("Hit or Stay");
 				userInput = sc.next();
 				switch (userInput) {
@@ -43,51 +43,92 @@ public class BlackjackApp {
 				case "Hit":
 					dealer.dealCard(player);
 					System.out.println(player.toString());
-					if (totes > 21) {
-						System.out.println("you lose, the dealer wins");
-						dealer.revealCards();
-						break;
-					}
-					if (totes == 21) {
-						System.out.println("Blackjack you win");
+					if (player.playerHand.getHandValue() > 21) {
+						run = false;
 						break;
 					}
 					break;
 				case "stay":
 				case "Stay":
 					System.out.println(player.toString());
-					dealer.revealCards();
-					while (dealer.playerHand.getHandValue() < 17
-							|| dealer.playerHand.getHandValue() <= player.playerHand.getHandValue()) {
-						dealer.dealCard(dealer);
-						System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
-						if (dealer.playerHand.getHandValue() > 21) {
-							System.out.println("Dealers hand is " + dealer.playerHand.getHandValue()
-									+ " players hand is " + player.playerHand.getHandValue());
-							System.out.println("dealer busts");
-							break;
-						}
-					}
+					run = false;
 					break;
 				default:
 					System.out.println("invalid entry, enter either hit or stay");
-					if (totes > 21) {
-						System.out.println("you lose, the dealer wins");
-						dealer.revealCards();
-						break;
-					}
-					if (totes == 21) {
-						System.out.println("Blackjack you win");
-						break;
-					}
-					if (totes < dealer.playerHand.getHandValue()) {
-						System.out.println("you lose, the dealer wins");
-						break;
-					}
+				}
+			}
+		}
+
+		dealer.revealCards();
+//		dealer.playerHand.toString();
+		if (dealer.playerHand.getHandValue() > player.playerHand.getHandValue()) {
+			System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+			System.out.println("Dealer wins");
+		}
+		// 15 12
+		// result false
+		// 18 12
+		// result false
+		// 18 17
+		// result true
+		else if (player.playerHand.getHandValue() > dealer.playerHand.getHandValue()
+				&& dealer.playerHand.getHandValue() >= 17 && player.playerHand.getHandValue() <= 21) {
+			System.out.println("Dealer stands");
+			System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+			System.out.println("Players hand is " + player.playerHand.getHandValue());
+			System.out.println("player wins");
+		}
+
+		else if (dealer.playerHand.getHandValue() == 21 && player.playerHand.getHandValue() == 21) {
+			System.out.println("Both player and dealer got 21, it's a draw");
+		}
+		else if (dealer.playerHand.getHandValue() == player.playerHand.getHandValue()) {
+			System.out.println("Both player and dealer got same value, house wins");
+		}
+		
+		else if (player.playerHand.getHandValue() == 21 && dealer.playerHand.getHandValue() != 21) {
+			System.out.println("BlackJack you win");
+			
+		}
+
+		else if (player.playerHand.getHandValue() > 21) {
+			System.out.println("you bust");
+			System.out.println("you lose, the dealer wins");
+		} else if (dealer.playerHand.getHandValue() == 21) {
+			System.out.println("Dealer got Blackjack");
+			System.out.println("You lose");
+		}
+
+		else {
+			while (dealer.playerHand.getHandValue() < 17 && player.playerHand.getHandValue() < 21) {
+//				dealer.dealCard(dealer);
+				System.out.println("dealer hit and got a " + dealer.dealCard(dealer));
+				System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+//				final results
+				if (dealer.playerHand.getHandValue() > 21) {
+					System.out.println("players hand is " + player.playerHand.getHandValue());
+					System.out.println("dealer busts");
+					System.out.println("Player wins");
+					break;
+				}
+				//
+				if (player.playerHand.getHandValue() > dealer.playerHand.getHandValue()
+						&& dealer.playerHand.getHandValue() >= 17) {
+//					System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+					System.out.println("players hand is " + player.playerHand.getHandValue());
+					System.out.println("Player Wins");
+					break;
+				}
+
+				if (dealer.playerHand.getHandValue() > player.playerHand.getHandValue()
+						&& dealer.playerHand.getHandValue() >= 17) {
+//					System.out.println("Dealers hand is " + dealer.playerHand.getHandValue());
+					System.out.println("players hand is " + player.playerHand.getHandValue());
+					System.out.println("Dealer Wins");
+					break;
 				}
 			}
 		}
 		sc.close();
-
 	}
 }
